@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document Test</title>
+
+	<style>
+		body {
+			min-height: 2000px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.marklet {
+			height: 800px;
+			background: red;
+		}
+
+		.marklet:nth-child(odd) {
+			background: blue;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div class="marklet"></div>
+		<div class="marklet"></div>
+		<div class="marklet"></div>
+		<div class="marklet"></div>
+	</div>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+	<script src="../src/stuuutterscroll.js"></script>
+	<script>
+		;(function() {
+			stuuutterscroll.init();
+		}());
+	</script>
+</body>
+</html>
