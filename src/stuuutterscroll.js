@@ -4,7 +4,7 @@
 	function _do($, _) {
 		var $htmlbody = $('html, body');
 
-		var stuuutterscroll = {
+		var sectorscroll = {
 			_$container: $(document),
 			_cache: [],
 			_disabled: false,
@@ -29,16 +29,16 @@
 
 			enable: function() {
 				if(opts.mouse === true) {
-					this._$container.bind('DOMMouseScroll.stuuutterscroll mousewheel.stuuutterscroll', _.bind(this._onMouseScroll, this));
+					this._$container.bind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', _.bind(this._onMouseScroll, this));
 				}
 
 				if(opts.touch === true) {
-					this._$container.bind('touchstart.stuuutterscroll', _.bind(this._onTouchStart, this));
-					this._$container.bind('touchmove.stuuutterscroll', _.bind(this._onTouchMove, this));
+					this._$container.bind('touchstart.sectorscroll', _.bind(this._onTouchStart, this));
+					this._$container.bind('touchmove.sectorscroll', _.bind(this._onTouchMove, this));
 				}
 
 				if(opts.keys === true) {
-					this._$container.bind('keydown.stuuutterscroll', _.bind(this._onKeyDown, this));
+					this._$container.bind('keydown.sectorscroll', _.bind(this._onKeyDown, this));
 				}
 
 				this._disabled = false;
@@ -46,16 +46,16 @@
 
 			disable: function() {
 				if(opts.mouse === true) {
-					this._$container.unbind('DOMMouseScroll.stuuutterscroll mousewheel.stuuutterscroll', _.bind(this._onMouseScroll, this));
+					this._$container.unbind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', _.bind(this._onMouseScroll, this));
 				}
 
 				if(opts.touch === true) {
-					this._$container.unbind('touchstart.stuuutterscroll', _.bind(this._onTouchStart, this));
-					this._$container.unbind('touchmove.stuuutterscroll', _.bind(this._onTouchMove, this));
+					this._$container.unbind('touchstart.sectorscroll', _.bind(this._onTouchStart, this));
+					this._$container.unbind('touchmove.sectorscroll', _.bind(this._onTouchMove, this));
 				}
 
 				if(opts.keys === true) {
-					this._$container.unbind('keydown.stuuutterscroll', _.bind(this._onKeyDown, this));
+					this._$container.unbind('keydown.sectorscroll', _.bind(this._onKeyDown, this));
 				}
 
 				this._disabled = true;
@@ -181,12 +181,12 @@
 			}
 		};
 
-		return stuuutterscroll;
+		return sectorscroll;
 	}
 
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery', 'underscore'], _do);
 	} else {
-		win.stuuutterscroll = _do(jQuery, _);
+		win.sectorscroll = _do(jQuery, _);
 	}
 }(window));
