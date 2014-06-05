@@ -122,7 +122,11 @@
 							}
 						})
 					});
+
+					return true;
 				}
+
+				return false;
 			},
 
 			_extractMouseDelta: function(e) {
@@ -140,13 +144,17 @@
 			},
 
 			_onMouseScroll: function(e) {
-				e.preventDefault();
-				if(this._scrolling === true) return;
+				if(this._scrolling === true) {
+					e.preventDefault();
+					return;
+				}
 
 				var delta = this._extractMouseDelta(e),
 					direction = (delta > 0) ? -1 : 1;
 
-				this._move(direction);
+				if(this._move(direction)) {
+					e.preventDefault();
+				}
 			},
 
 			_onTouchStart: function(e) {
@@ -154,13 +162,17 @@
 			},
 
 			_onTouchMove: function(e) {
-				e.preventDefault();
-				if(this._scrolling === true) return;
+				if(this._scrolling === true) {
+					e.preventDefault();
+					return;
+				}
 
 				var delta = this._touchStart - e.originalEvent.touches[0][(this._opts.axis === 'y') ? 'pageY' : 'pageX'],
 					direction = (delta < 0) ? -1 : 1;
 
-				this._move(direction);
+				if(this._move(direction)) {
+					e.preventDefault();
+				}
 			},
 
 			_onKeyDown: function(e) {
@@ -171,11 +183,11 @@
 
 				 for (var i = keys.length; i--;) {
 					if (keyCode === keys[i]) {
-						e.preventDefault();
-
 						var direction = (keyCode === keys[0] || keyCode === keys[1]) ? -1 : 1;
 
-						this._move(direction);
+						if(this._move(direction)) {
+							e.preventDefault();
+						}
 					}
 				}
 			}
