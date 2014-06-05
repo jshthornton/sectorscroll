@@ -11,7 +11,7 @@
 			//_touchStart,
 
 			init: function(opts) {
-				opts = this.opts = $.extend({
+				opts = this._opts = $.extend({
 					markletSelector: '.marklet',
 					cache: true,
 					mouse: true,
@@ -28,16 +28,16 @@
 			},
 
 			enable: function() {
-				if(opts.mouse === true) {
+				if(this._opts.mouse === true) {
 					this._$container.bind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', _.bind(this._onMouseScroll, this));
 				}
 
-				if(opts.touch === true) {
+				if(this._opts.touch === true) {
 					this._$container.bind('touchstart.sectorscroll', _.bind(this._onTouchStart, this));
 					this._$container.bind('touchmove.sectorscroll', _.bind(this._onTouchMove, this));
 				}
 
-				if(opts.keys === true) {
+				if(this._opts.keys === true) {
 					this._$container.bind('keydown.sectorscroll', _.bind(this._onKeyDown, this));
 				}
 
@@ -45,16 +45,16 @@
 			},
 
 			disable: function() {
-				if(opts.mouse === true) {
+				if(this._opts.mouse === true) {
 					this._$container.unbind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', _.bind(this._onMouseScroll, this));
 				}
 
-				if(opts.touch === true) {
+				if(this._opts.touch === true) {
 					this._$container.unbind('touchstart.sectorscroll', _.bind(this._onTouchStart, this));
 					this._$container.unbind('touchmove.sectorscroll', _.bind(this._onTouchMove, this));
 				}
 
-				if(opts.keys === true) {
+				if(this._opts.keys === true) {
 					this._$container.unbind('keydown.sectorscroll', _.bind(this._onKeyDown, this));
 				}
 
@@ -69,7 +69,7 @@
 			_move: function(direction) {
 				var _this = this,
 					$container = this._$container,
-					scroll = $container[(this.opts.axis === 'y') ? 'scrollTop' : 'scrollLeft'](),
+					scroll = $container[(this._opts.axis === 'y') ? 'scrollTop' : 'scrollLeft'](),
 					closest,
 					elOffset;
 
@@ -89,11 +89,11 @@
 					}
 				};
 
-				if(this._cache.length === 0 || this.opts.cache === false) {
-					var $marklets = $(this.opts.markletSelector, $container);
+				if(this._cache.length === 0 || this._opts.cache === false) {
+					var $marklets = $(this._opts.markletSelector, $container);
 					$marklets.each(function(index, el) {
 						var $el = $(el),
-							offset = $el.offset()[(_this.opts.axis === 'y') ? 'top' : 'left'];
+							offset = $el.offset()[(_this._opts.axis === 'y') ? 'top' : 'left'];
 
 						_this._cache.push(offset);
 
@@ -109,18 +109,18 @@
 					this._scrolling = true;
 
 					var props = {};
-					props[(_this.opts.axis === 'y') ? 'scrollTop' : 'scrollLeft'] = elOffset;
+					props[(_this._opts.axis === 'y') ? 'scrollTop' : 'scrollLeft'] = elOffset;
 
 
 					$htmlbody.animate(props, {
-						duration: this.opts.scrollDuration,
-						done: function() {
+						duration: this._opts.scrollDuration,
+						done: _.once(function() {
 							_this._scrolling = false;
 
-							if(typeof _this.opts.callback === 'function') {
-								_this.opts.callback();
+							if(typeof _this._opts.callback === 'function') {
+								_this._opts.callback();
 							}
-						}
+						})
 					});
 				}
 			},
@@ -150,14 +150,14 @@
 			},
 
 			_onTouchStart: function(e) {
-				this._touchStart = e.originalEvent.touches[0][(this.opts.axis === 'y') ? 'pageY' : 'pageX'];
+				this._touchStart = e.originalEvent.touches[0][(this._opts.axis === 'y') ? 'pageY' : 'pageX'];
 			},
 
 			_onTouchMove: function(e) {
 				e.preventDefault();
 				if(this._scrolling === true) return;
 
-				var delta = this._touchStart - e.originalEvent.touches[0][(this.opts.axis === 'y') ? 'pageY' : 'pageX'],
+				var delta = this._touchStart - e.originalEvent.touches[0][(this._opts.axis === 'y') ? 'pageY' : 'pageX'],
 					direction = (delta < 0) ? -1 : 1;
 
 				this._move(direction);

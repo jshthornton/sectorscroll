@@ -6,7 +6,7 @@
 
 	<style>
 		body {
-			min-height: 2000px;
+			min-height: 50000px;
 			margin: 0;
 			padding: 0;
 		}
@@ -31,10 +31,14 @@
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-	<script src="../src/stuuutterscroll.js"></script>
+	<script src="../src/sectorscroll.js"></script>
 	<script>
 		;(function() {
-			stuuutterscroll.init();
+			sectorscroll.init({
+				callback: function() {
+					console.log('test');
+				}
+			});
 		}());
 	</script>
 </body>
