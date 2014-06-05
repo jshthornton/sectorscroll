@@ -29,16 +29,16 @@
 
 			enable: function() {
 				if(this._opts.mouse === true) {
-					this._$container.bind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', _.bind(this._onMouseScroll, this));
+					this._$container.bind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', $.proxy(this._onMouseScroll, this));
 				}
 
 				if(this._opts.touch === true) {
-					this._$container.bind('touchstart.sectorscroll', _.bind(this._onTouchStart, this));
-					this._$container.bind('touchmove.sectorscroll', _.bind(this._onTouchMove, this));
+					this._$container.bind('touchstart.sectorscroll', $.proxy(this._onTouchStart, this));
+					this._$container.bind('touchmove.sectorscroll', $.proxy(this._onTouchMove, this));
 				}
 
 				if(this._opts.keys === true) {
-					this._$container.bind('keydown.sectorscroll', _.bind(this._onKeyDown, this));
+					this._$container.bind('keydown.sectorscroll', $.proxy(this._onKeyDown, this));
 				}
 
 				this._disabled = false;
@@ -46,16 +46,16 @@
 
 			disable: function() {
 				if(this._opts.mouse === true) {
-					this._$container.unbind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', _.bind(this._onMouseScroll, this));
+					this._$container.unbind('DOMMouseScroll.sectorscroll mousewheel.sectorscroll', $.proxy(this._onMouseScroll, this));
 				}
 
 				if(this._opts.touch === true) {
-					this._$container.unbind('touchstart.sectorscroll', _.bind(this._onTouchStart, this));
-					this._$container.unbind('touchmove.sectorscroll', _.bind(this._onTouchMove, this));
+					this._$container.unbind('touchstart.sectorscroll', $.proxy(this._onTouchStart, this));
+					this._$container.unbind('touchmove.sectorscroll', $.proxy(this._onTouchMove, this));
 				}
 
 				if(this._opts.keys === true) {
-					this._$container.unbind('keydown.sectorscroll', _.bind(this._onKeyDown, this));
+					this._$container.unbind('keydown.sectorscroll', $.proxy(this._onKeyDown, this));
 				}
 
 				this._disabled = true;
@@ -110,7 +110,7 @@
 						calculate(offset);
 					});
 				} else {
-					_.each(this._cache, function(offset) {
+					$.each(this._cache, function(index, offset) {
 						calculate(offset);
 					});
 				}
@@ -121,16 +121,20 @@
 					var props = {};
 					props[_this._getPropName('scroll')] = elOffset;
 
-
+					var done = false;
 					$htmlbody.animate(props, {
 						duration: this._opts.scrollDuration,
-						done: _.once(function() {
+						done: function() {
+							if(done) return;
+
 							_this._scrolling = false;
 
 							if(typeof _this._opts.callback === 'function') {
 								_this._opts.callback();
 							}
-						})
+
+							done = true;
+						}
 					});
 
 					return true;
@@ -207,8 +211,8 @@
 	}
 
 	if (typeof define === 'function' && define.amd) {
-		define(['jquery', 'underscore'], _do);
+		define(['jquery'], _do);
 	} else {
-		win.sectorscroll = _do(jQuery, _);
+		win.sectorscroll = _do(jQuery);
 	}
 }(window));
