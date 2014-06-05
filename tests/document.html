@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document Test</title>
+
+	<style>
+		body {
+			min-height: 50000px;
+			margin: 0;
+			padding: 0;
+		}
+
+		.marklet {
+			height: 800px;
+			background: red;
+		}
+
+		.marklet:nth-child(odd) {
+			background: blue;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<div class="marklet"></div>
+		<div class="marklet"></div>
+		<div class="marklet"></div>
+		<div class="marklet"></div>
+	</div>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script src="../src/sectorscroll.js"></script>
+	<script>
+		;(function() {
+			sectorscroll.init({
+				callback: function() {
+					console.log('test');
+				}
+			});
+		}());
+	</script>
+</body>
+</html>
