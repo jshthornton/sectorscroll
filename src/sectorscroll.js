@@ -79,7 +79,7 @@
 			_move: function(direction) {
 				var _this = this,
 					$container = this._$container,
-					scroll = $container[_this._getPropName('scroll')](),
+					scroll = $container[this._getPropName('scroll')](),
 					closest,
 					elOffset;
 
@@ -172,7 +172,7 @@
 			},
 
 			_onTouchStart: function(e) {
-				this._touchStart = e.originalEvent.touches[0][_this._getPropName('page')];
+				this._touchStart = e.originalEvent.touches[0][this._getPropName('page')];
 			},
 
 			_onTouchMove: function(e) {
@@ -181,7 +181,7 @@
 					return;
 				}
 
-				var delta = this._touchStart - e.originalEvent.touches[0][_this._getPropName('page')],
+				var delta = this._touchStart - e.originalEvent.touches[0][this._getPropName('page')],
 					direction = (delta < 0) ? -1 : 1;
 
 				if(this._move(direction)) {
