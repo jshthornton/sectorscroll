@@ -65,11 +65,21 @@
 				this._cache.length = 0;
 			},
 
+			_getPropName: function(type) {
+				if(type === 'scroll') {
+					return (this._opts.axis === 'y') ? 'scrollTop' : 'scrollLeft';
+				} else if(type === 'page') {
+					return (this._opts.axis === 'y') ? 'pageY' : 'pageX';
+				} else if(type === 'position') {
+					return (this._opts.axis === 'y') ? 'top' : 'left';
+				}
+			},
+
 			//Events
 			_move: function(direction) {
 				var _this = this,
 					$container = this._$container,
-					scroll = $container[(this._opts.axis === 'y') ? 'scrollTop' : 'scrollLeft'](),
+					scroll = $container[_this._getPropName('scroll')](),
 					closest,
 					elOffset;
 
@@ -93,7 +103,7 @@
 					var $marklets = $(this._opts.markletSelector, $container);
 					$marklets.each(function(index, el) {
 						var $el = $(el),
-							offset = $el.offset()[(_this._opts.axis === 'y') ? 'top' : 'left'];
+							offset = $el.offset()[_this._getPropName('position')];
 
 						_this._cache.push(offset);
 
@@ -109,7 +119,7 @@
 					this._scrolling = true;
 
 					var props = {};
-					props[(_this._opts.axis === 'y') ? 'scrollTop' : 'scrollLeft'] = elOffset;
+					props[_this._getPropName('scroll')] = elOffset;
 
 
 					$htmlbody.animate(props, {
@@ -158,7 +168,7 @@
 			},
 
 			_onTouchStart: function(e) {
-				this._touchStart = e.originalEvent.touches[0][(this._opts.axis === 'y') ? 'pageY' : 'pageX'];
+				this._touchStart = e.originalEvent.touches[0][_this._getPropName('page')];
 			},
 
 			_onTouchMove: function(e) {
@@ -167,7 +177,7 @@
 					return;
 				}
 
-				var delta = this._touchStart - e.originalEvent.touches[0][(this._opts.axis === 'y') ? 'pageY' : 'pageX'],
+				var delta = this._touchStart - e.originalEvent.touches[0][_this._getPropName('page')],
 					direction = (delta < 0) ? -1 : 1;
 
 				if(this._move(direction)) {
