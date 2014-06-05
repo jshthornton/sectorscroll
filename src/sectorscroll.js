@@ -17,6 +17,7 @@
 					mouse: true,
 					touch: true,
 					keys: true,
+					pageKeys: false,
 					scrollDuration: 500,
 					axis: 'y',
 					callback: $.noop
@@ -192,13 +193,22 @@
 			_onKeyDown: function(e) {
 				if(this._scrolling === true) return;
 
-				var keys = [37, 38, 39, 40],
+				// Page Up, Left, Up
+				// Page Down, Right, Down
+				var keys = [
+					33, 37, 38,
+					34, 39, 40
+				],
 					keyCode = e.keyCode;
 
-				 for (var i = keys.length; i--;) {
-					if (keyCode === keys[i]) {
-						var direction = (keyCode === keys[0] || keyCode === keys[1]) ? -1 : 1;
+				 for (var i = keys.length; i >= 0; i--) {
 
+					if (keyCode === keys[i]) {
+				 		if(this._opts.pageKeys === false && (keyCode === keys[0] || keyCode === keys[3])) {
+				 			continue;
+				 		}
+
+						var direction = (keyCode === keys[0] || keyCode === keys[1] || keyCode === keys[2]) ? -1 : 1;
 						if(this._move(direction)) {
 							e.preventDefault();
 						}
